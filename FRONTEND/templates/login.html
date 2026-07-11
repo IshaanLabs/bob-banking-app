@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-12 col-sm-10 col-md-6 col-lg-5">
+    <div class="card shadow-sm mt-4">
+      <div class="card-body p-4">
+        <h2 class="card-title mb-4 text-center">Sign In</h2>
+
+        <form method="POST" action="{{ url_for('auth.login') }}" novalidate>
+          <!-- CSRF token (Flask-WTF not used for raw form — use meta token instead) -->
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() if csrf_token is defined else '' }}" />
+
+          <!-- Username -->
+          <div class="mb-3">
+            <label for="username" class="form-label fw-semibold">Username</label>
+            <input
+              type="text"
+              class="form-control"
+              id="username"
+              name="username"
+              placeholder="Enter your username"
+              required
+              autocomplete="username"
+            />
+          </div>
+
+          <!-- Password -->
+          <div class="mb-4">
+            <label for="password" class="form-label fw-semibold">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              required
+              autocomplete="current-password"
+            />
+          </div>
+
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary btn-lg">Login</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
+    <p class="text-center text-muted mt-3" style="font-size:0.875rem;">
+      Demo credentials — username: <strong>john</strong> &nbsp;|&nbsp; password: <strong>password123</strong>
+    </p>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+
+  <!-- ── Welcome heading ── -->
+  <div class="col-12">
+    <h1 class="h3 mb-0">Welcome, {{ customer_name }}!</h1>
+    <p class="text-muted">Here is a summary of your account.</p>
+  </div>
+
+  <!-- ── Balance card ── -->
+  <div class="col-12 col-md-6">
+    <div class="card h-100">
+      <div class="card-body text-center py-5">
+        <p class="text-muted mb-1 text-uppercase small fw-semibold">Current Balance</p>
+        <p class="balance-amount mb-0">£{{ "%.2f"|format(balance) }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Action buttons card ── -->
+  <div class="col-12 col-md-6">
+    <div class="card h-100">
+      <div class="card-body d-flex flex-column justify-content-center gap-3 py-4">
+        <p class="text-muted text-uppercase small fw-semibold mb-1">Quick Actions</p>
+        <a href="{{ url_for('accounts.deposit_view') }}" class="btn btn-success btn-lg">
+          &#43; Deposit Funds
+        </a>
+        <a href="{{ url_for('accounts.withdraw_view') }}" class="btn btn-danger btn-lg">
+          &#8722; Withdraw Funds
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}
