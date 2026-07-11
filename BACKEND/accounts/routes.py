@@ -13,6 +13,7 @@ from flask import (
 )
 
 from accounts.service import deposit, withdraw
+from models.account import get_balance
 from utils import login_required
 
 accounts_bp = Blueprint("accounts", __name__, url_prefix="/account")
@@ -57,6 +58,26 @@ def withdraw_view():
     if request.method == "POST":
         raw_amount = request.form.get("amount", "").strip()
         customer_id = session["customer_id"]
+
+        # Validation check 1: amount field must not be empty
+        if not raw_amount:
+            flash("Amount is required", "danger")
+            return render_template("withdraw.html")
+
+        # Validation check 2: amount must be a positive number
+        try:
+            amount_value = float(raw_amount)
+        except ValueError:
+            amount_value = None
+        if amount_value is None or amount_value <= 0:
+            flash("Amount must be greater than zero", "danger")
+            return render_template("withdraw.html")
+
+        # Validation check 3: amount must not exceed current balance
+        current_balance = get_balance(customer_id)
+        if amount_value > current_balance:
+            flash("Insufficient funds", "danger")
+            return render_template("withdraw.html")
 
         success, message = withdraw(customer_id, raw_amount)
         if success:
